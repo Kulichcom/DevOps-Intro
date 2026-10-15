@@ -1,0 +1,96 @@
+== Thu Oct 15 22:34:50 MSK 2026 phase 2 start
+== Go toolchain for TinyGo 0.41 (its net package imports internal/strconv)
+17:	"internal/strconv"
+go1.26.0 has internal/strconv
+go version go1.26.0 linux/arm64
+tinygo version 0.41.0 linux/arm64 (using go version go1.26.0 and LLVM version 20.1.1)
+== Task 1: spin build
+Building component moscow-time with `tinygo build -target=wasip1 -buildmode=c-shared -no-debug -o main.wasm .`
+Finished building all Spin components
+-rwxr-xr-x 1 root root 370314 Oct 15 19:35 main.wasm
+== spin up (0.0.0.0:3000 in wasmlab, published to the Mac)
+Logging component stdio to ".spin/logs/"
+
+Serving http://0.0.0.0:3000
+Available Routes:
+  moscow-time: http://0.0.0.0:3000/time
+-- curl -i /time
+HTTP/1.1 200 OK
+content-type: application/json
+content-length: 154
+date: Thu, 15 Oct 2026 19:35:35 GMT
+
+{"unix":1792092936,"iso":"2026-10-15T22:35:36+03:00","hour_minute":"22:35","timezone":"Europe/Moscow","utc_offset":"+03:00","utc":"2026-10-15T19:35:36Z"}
+-- pretty
+{
+    "unix": 1792092936,
+    "iso": "2026-10-15T22:35:36+03:00",
+    "hour_minute": "22:35",
+    "timezone": "Europe/Moscow",
+    "utc_offset": "+03:00",
+    "utc": "2026-10-15T19:35:36Z"
+}
+-- POST /time (expect 405)
+405
+== Lab 6 container
+sha256:7de5bb58eaad89e4c5626ef2acec7bf0513ff3a84d4ec768894780228aa7cf81
+4372f9e8c69b285fb6bd8bf1d99fcb340b789bcab86070d34cc34f0e91beeedb
+{"notes":4,"status":"ok"}
+
+== Task 2.1 (1) warm latency, hyperfine from inside wasmlab, both via host port forwarding
+Benchmark 1: curl -s http://host.docker.internal:3000/time
+  Time (mean ± σ):       5.4 ms ±   1.1 ms    [User: 2.1 ms, System: 1.0 ms]
+  Range (min … max):     4.1 ms …   9.1 ms    50 runs
+Benchmark 2: curl -s http://host.docker.internal:8080/health
+  Time (mean ± σ):       3.9 ms ±   0.4 ms    [User: 1.9 ms, System: 0.7 ms]
+  Range (min … max):     3.3 ms …   5.3 ms    50 runs
+curl -s http://host.docker.internal:3000/time                               n=50 p50=4.92ms p95=7.59ms mean=5.36ms
+curl -s http://host.docker.internal:8080/health                             n=50 p50=3.73ms p95=4.53ms mean=3.87ms
+== Task 2.1 (2) cold start: kill runtime, restart, time to first 200 (6 samples, from the Mac)
+COLD docker #1 137 ms
+COLD docker #2 166 ms
+COLD docker #3 157 ms
+COLD docker #4 137 ms
+COLD docker #5 126 ms
+COLD docker #6 130 ms
+COLD spin #1 117 ms
+COLD spin #2 124 ms
+COLD spin #3 131 ms
+COLD spin #4 106 ms
+COLD spin #5 113 ms
+COLD spin #6 113 ms
+== Task 2.1 (3) artifact size
+-rwxr-xr-x 1 root root 370314 Oct 15 19:35 /repo/wasm/moscow-time/main.wasm
+IMAGE             ID             DISK USAGE   CONTENT SIZE   EXTRA
+quicknotes:lab6   7de5bb58eaad       22.1MB         5.41MB   U    
+quicknotes:lab6 Size=5403881 bytes
+== design b: build WITHOUT -buildmode=c-shared, serve on :3001
+wasm-ld: error: lto.tmp: undefined symbol: main.main
+
+-- spin log:
+cat: /tmp/nocs.log: No such file or directory
+== design d: TinyGo stdlib probes (LoadLocation, json of map[string]any)
+LoadLocation(Europe/Moscow) error: unknown time zone Europe/Moscow
+json.Marshal(map[string]any): {"iso":"x","unix":1} err=<nil>
+== Bonus: standalone WASI CLI module
+-rwxr-xr-x 1 root root 197037 Oct 15 19:36 main.wasm
+Content-Type: application/json
+Status: 200 OK
+
+{"unix":1792092973,"iso":"2026-10-15T22:36:13+03:00","hour_minute":"22:36","timezone":"Europe/Moscow","utc_offset":"+03:00","utc":"2026-10-15T19:36:13Z"}
+Content-Type: application/json
+Status: 404 Not Found
+
+{"error":"not found"}
+-- per-invocation cold start: wasmtime run (each run = new process + module compile + instantiate)
+  Time (mean ± σ):      24.8 ms ±   4.5 ms    [User: 3.4 ms, System: 3.5 ms]
+  Range (min … max):    16.3 ms …  32.8 ms    30 runs
+wasmtime run --env REQUEST_METHOD=GET --env PATH_INFO=/time main.wasm       n=30 p50=25.02ms p95=31.36ms mean=24.78ms
+-- same request to the persistent Spin server, measured the same way (inside wasmlab)
+  Time (mean ± σ):       3.0 ms ±   0.1 ms    [User: 1.5 ms, System: 0.8 ms]
+  Range (min … max):     2.9 ms …   3.2 ms    30 runs
+curl -s http://127.0.0.1:3000/time                                          n=30 p50=2.98ms p95=3.19ms mean=2.99ms
+-- design h: the Spin component under bare wasmtime run
+exit=0
+== cleanup
+== Thu Oct 15 22:36:15 MSK 2026 phase 2 done

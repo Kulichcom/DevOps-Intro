@@ -1,0 +1,16 @@
+== b) no -buildmode=c-shared, with an empty func main() added so it links
+-rw-r--r-- 1 root root 370596 Oct 15 19:37 main.wasm
+HTTP/1.1 200 OK
+content-type: application/json
+content-length: 154
+date: Thu, 15 Oct 2026 19:37:17 GMT
+
+{"unix":1792093037,"iso":"2026-10-15T22:37:17+03:00","hour_minute":"22:37","timezone":"Europe/Moscow","utc_offset":"+03:00","utc":"2026-10-15T19:37:17Z"}
+
+-- spin output:
+Logging component stdio to ".spin/logs/"
+
+Serving http://127.0.0.1:3001
+Available Routes:
+  moscow-time: http://127.0.0.1:3001/time
+-- component logs:

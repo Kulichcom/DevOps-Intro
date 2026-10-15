@@ -1,0 +1,103 @@
+== Thu Oct 15 22:24:08 MSK 2026 phase 1 start, branch feature/lab12
+ Server Version: 29.6.1
+== tool container 'wasmlab' (golang:1.24-bookworm, port 3000 published)
+Unable to find image 'golang:1.24-bookworm' locally
+1.24-bookworm: Pulling from library/golang
+ad49288bca90: Pulling fs layer
+a81f5bcee2f7: Pulling fs layer
+64e8f4c09e7a: Pulling fs layer
+404413e6e45a: Pulling fs layer
+e1e9aa4982c2: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+f5657497bb46: Pulling fs layer
+f5657497bb46: Already exists
+4f4fb700ef54: Already exists
+86d0563cf88a: Download complete
+ad49288bca90: Download complete
+e170154dde22: Download complete
+404413e6e45a: Download complete
+64e8f4c09e7a: Download complete
+64e8f4c09e7a: Pull complete
+404413e6e45a: Pull complete
+e1e9aa4982c2: Download complete
+e1e9aa4982c2: Pull complete
+a81f5bcee2f7: Download complete
+a81f5bcee2f7: Pull complete
+f5657497bb46: Pull complete
+4f4fb700ef54: Pull complete
+ad49288bca90: Pull complete
+Digest: sha256:1a6d4452c65dea36aac2e2d606b01b4a029ec90cc1ae53890540ce6173ea77ac
+Status: Downloaded newer image for golang:1.24-bookworm
+83e5a24dc77a5224e21b9f69307893697847022dddd3afa552720f7422aec870
+== arch arm64
+debconf: delaying package configuration, since apt-utils is not installed
+== TinyGo 0.41.0
+== Spin 3.4
+	https://github.com/fermyon/cloud-plugin
+[0;32mYou're good to go. Check here for the next steps: https://spinframework.dev/quickstart[0m
+[0;32mRun './spin' to get started[0m
+== wasmtime
+== versions
+spin 3.4.0 (4f671be 2025-08-26)
+tinygo version 0.41.0 linux/arm64 (using go version go1.24.13 and LLVM version 20.1.1)
+go version go1.24.13 linux/arm64
+hyperfine 1.15.0
+wasmtime 49.0.3 (f96eabaa1 2026-10-14)
+== templates
+| http-go             HTTP request handler using (Tiny)Go                |
+| http-go             HTTP request handler using (Tiny)Go                |
+== scaffold
+total 20
+drwxr-xr-x 7 root root 224 Oct 15 19:27 .
+drwxr-xr-x 3 root root  96 Oct 15 19:27 ..
+-rw-r--r-- 1 root root  17 Oct 15 19:27 .gitignore
+-rw-r--r-- 1 root root 159 Oct 15 19:27 go.mod
+-rw-r--r-- 1 root root 386 Oct 15 19:27 go.sum
+-rw-r--r-- 1 root root 268 Oct 15 19:27 main.go
+-rw-r--r-- 1 root root 463 Oct 15 19:27 spin.toml
+----- moscow-time/spin.toml
+#:schema https://schemas.spinframework.dev/spin/manifest-v2/latest.json
+
+spin_manifest_version = 2
+
+[application]
+name = "moscow-time"
+version = "0.1.0"
+authors = [""]
+description = ""
+
+[[trigger.http]]
+route = "/..."
+component = "moscow-time"
+
+[component.moscow-time]
+source = "main.wasm"
+allowed_outbound_hosts = []
+[component.moscow-time.build]
+command = "tinygo build -target=wasip1 -buildmode=c-shared -no-debug -o main.wasm ."
+watch = ["**/*.go", "go.mod"]
+----- moscow-time/go.mod
+module github.com/moscow_time
+
+go 1.22
+
+require github.com/spinframework/spin-go-sdk/v2 v2.2.1
+
+require github.com/julienschmidt/httprouter v1.3.0 // indirect
+----- moscow-time/main.go
+package main
+
+import (
+	"fmt"
+	"net/http"
+
+	spinhttp "github.com/spinframework/spin-go-sdk/v2/http"
+)
+
+func init() {
+	spinhttp.Handle(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain")
+		fmt.Fprintln(w, "Hello World!")
+	})
+}
+== Thu Oct 15 22:27:02 MSK 2026 phase 1 done
