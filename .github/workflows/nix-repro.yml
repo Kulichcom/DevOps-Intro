@@ -15,7 +15,7 @@ jobs:
     outputs:
       digest: ${{ steps.d.outputs.digest }}
     env:
-      BREAK_REPRO: "1"   # "1" = deliberately change the source in job A only
+      BREAK_REPRO: "0"   # "1" = deliberately change the source in job A only
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
