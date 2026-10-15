@@ -1,0 +1,134 @@
+== Thu Oct 15 21:00:34 MSK 2026 phase 1 start
+== starting Docker
+ Server Version: 29.6.1
+== flake must be tracked by git for nix to see it
+== environment A container
+Status: Downloaded newer image for nixos/nix:latest
+docker.io/nixos/nix:latest
+b439412da6e5a6a71a1494cc3e9e0f7b849dbe13fad3aa5a5a988bdd22a4f3c1
+== nix version: nix (Nix) 2.35.3, system: aarch64-linux
+== cache reachability
+cache.nixos.org HTTP 200
+== nix build .#quicknotes
+building '/nix/store/zis084gjavj0jg2mcvpkc0hn3g0wb3fq-quicknotes-0.1.0.drv'...
+quicknotes> Running phase: unpackPhase
+quicknotes> unpacking source archive /nix/store/0axahfgcc3b02jpvh1nkjh5bk4ispafm-app
+quicknotes> source root is app
+quicknotes> Running phase: patchPhase
+quicknotes> Running phase: updateAutotoolsGnuConfigScriptsPhase
+quicknotes> Running phase: configurePhase
+quicknotes> Running phase: buildPhase
+quicknotes> Building subPackage ./.
+quicknotes> Building subPackage ./healthcheck
+quicknotes> Running phase: checkPhase
+quicknotes> ok          quicknotes      0.004s
+quicknotes> ?           quicknotes/healthcheck  [no test files]
+quicknotes> Running phase: installPhase
+quicknotes> Running phase: fixupPhase
+quicknotes> shrinking RPATHs of ELF executables and libraries in /nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0
+quicknotes> shrinking /nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0/bin/healthcheck
+quicknotes> patchelf: cannot find section '.dynamic'. The input file is most likely statically linked
+quicknotes> shrinking /nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0/bin/quicknotes
+quicknotes> patchelf: cannot find section '.dynamic'. The input file is most likely statically linked
+quicknotes> checking for references to /nix/var/nix/builds/nix-37-3255800514/ in /nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0...
+quicknotes> patchelf: cannot find section '.dynamic'. The input file is most likely statically linked
+quicknotes> patchelf: cannot find section '.dynamic'. The input file is most likely statically linked
+quicknotes> patching script interpreter paths in /nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0
+quicknotes> stripping (with command strip and flags -S -p) in  /nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0/bin
+STORE_PATH_A /nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0
+STORE_HASH_A sha256:0sklj830zl6ci4gmk6wir6hszp9pig8yv5rvcbdia2k7hxs5vr0c
+total 10588
+dr-xr-xr-x 2 root root    4096 Jan  1  1970 .
+dr-xr-xr-x 3 root root    4096 Jan  1  1970 ..
+-r-xr-xr-x 1 root root 5276144 Jan  1  1970 healthcheck
+-r-xr-xr-x 1 root root 5550288 Jan  1  1970 quicknotes
+== run it
+2026/10/15 18:06:21 quicknotes listening on :8080 (notes loaded: 4)
+unpacking 'https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst' into the Git cache...
+these 22 paths will be fetched (21.4 MiB download, 79.0 MiB unpacked):
+  /nix/store/mwhkh9l5j5z6mkk83k22rjhx6lxgqh85-bash-5.3p15
+  /nix/store/gg00qwxck8ddxr98x2yizdsw8m540p42-brotli-1.2.0-lib
+  /nix/store/d05khq8gbpqw7ykgnjg8qixqyfa1idj5-curl-8.22.0
+  /nix/store/8kdawibp3831l16sx890nmxjyxii2a8i-curl-8.22.0-bin
+  /nix/store/pkx6g62xshir1v7hqzns0x2ygzx1w60n-curl-8.22.0-man
+  /nix/store/na9inwswsrgxxqpqrz3ms78qn7pyxg44-gcc-16.2.0-lib
+  /nix/store/bylbi6s4mq0gxrw4fwawbhw3ffzhpllf-gcc-16.2.0-libgcc
+  /nix/store/hx9wvdx2l59iahwf9nmrx7rwkm6cymgs-glibc-2.44-25
+  /nix/store/6bl951wf1sykz4ldf34v3mqykc7dw5db-keyutils-1.6.3-lib
+  /nix/store/kivcwv9nzmjpjq5qdaq7xd836cq34p22-krb5-1.22.2-lib
+  /nix/store/gxljc46qyjqzvhrnf5wk5ypyg73qv84n-libidn2-2.3.8
+  /nix/store/ibj9znh6k4nz4641yrfcgz9h1b27i7xr-libpsl-0.21.5
+  /nix/store/d5ysi0fjqfajxn4frhsrhannm5p93kjj-libssh2-1.11.1
+  /nix/store/d3xvwgga6f7mchrbvc77g3gap2yw1pd4-libunistring-1.4.2
+  /nix/store/6pv315yv0ccxd5h26zhj0i6mgn7q3brj-nghttp2-1.70.0-lib
+  /nix/store/2yvsxc147p0zgmb0fz701svp4ss7m3am-nghttp3-1.17.0
+  /nix/store/cj6f94005924dcq8says7xgrmydfwzif-ngtcp2-1.23.0
+  /nix/store/db07pw9avlwysb3v68cfp9cijg2mmfns-openssl-3.5.8
+  /nix/store/nw0d09yavkym519xh5cyizds4wihanvm-publicsuffix-list-0-unstable-2026-09-02
+  /nix/store/ficwc08a9q1rigvr4jv9l3xsvmx3yfqn-xgcc-16.2.0-libgcc
+  /nix/store/7d907izyink96xhqazkbw4wicvgkm76c-zlib-1.3.2
+  /nix/store/37pj113a0sm14a3c8mymvfrm6msfcy82-zstd-1.5.7
+copying path '/nix/store/pkx6g62xshir1v7hqzns0x2ygzx1w60n-curl-8.22.0-man' from 'https://cache.nixos.org'...
+copying path '/nix/store/ficwc08a9q1rigvr4jv9l3xsvmx3yfqn-xgcc-16.2.0-libgcc' from 'https://cache.nixos.org'...
+copying path '/nix/store/d3xvwgga6f7mchrbvc77g3gap2yw1pd4-libunistring-1.4.2' from 'https://cache.nixos.org'...
+copying path '/nix/store/nw0d09yavkym519xh5cyizds4wihanvm-publicsuffix-list-0-unstable-2026-09-02' from 'https://cache.nixos.org'...
+copying path '/nix/store/bylbi6s4mq0gxrw4fwawbhw3ffzhpllf-gcc-16.2.0-libgcc' from 'https://cache.nixos.org'...
+copying path '/nix/store/gxljc46qyjqzvhrnf5wk5ypyg73qv84n-libidn2-2.3.8' from 'https://cache.nixos.org'...
+copying path '/nix/store/hx9wvdx2l59iahwf9nmrx7rwkm6cymgs-glibc-2.44-25' from 'https://cache.nixos.org'...
+copying path '/nix/store/mwhkh9l5j5z6mkk83k22rjhx6lxgqh85-bash-5.3p15' from 'https://cache.nixos.org'...
+copying path '/nix/store/na9inwswsrgxxqpqrz3ms78qn7pyxg44-gcc-16.2.0-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/gg00qwxck8ddxr98x2yizdsw8m540p42-brotli-1.2.0-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/6bl951wf1sykz4ldf34v3mqykc7dw5db-keyutils-1.6.3-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/ibj9znh6k4nz4641yrfcgz9h1b27i7xr-libpsl-0.21.5' from 'https://cache.nixos.org'...
+copying path '/nix/store/6pv315yv0ccxd5h26zhj0i6mgn7q3brj-nghttp2-1.70.0-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/2yvsxc147p0zgmb0fz701svp4ss7m3am-nghttp3-1.17.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/db07pw9avlwysb3v68cfp9cijg2mmfns-openssl-3.5.8' from 'https://cache.nixos.org'...
+copying path '/nix/store/7d907izyink96xhqazkbw4wicvgkm76c-zlib-1.3.2' from 'https://cache.nixos.org'...
+copying path '/nix/store/37pj113a0sm14a3c8mymvfrm6msfcy82-zstd-1.5.7' from 'https://cache.nixos.org'...
+copying path '/nix/store/kivcwv9nzmjpjq5qdaq7xd836cq34p22-krb5-1.22.2-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/cj6f94005924dcq8says7xgrmydfwzif-ngtcp2-1.23.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/d5ysi0fjqfajxn4frhsrhannm5p93kjj-libssh2-1.11.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/d05khq8gbpqw7ykgnjg8qixqyfa1idj5-curl-8.22.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/8kdawibp3831l16sx890nmxjyxii2a8i-curl-8.22.0-bin' from 'https://cache.nixos.org'...
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Thu, 15 Oct 2026 18:07:00 GMT
+Content-Length: 26
+
+{"notes":4,"status":"ok"}
+
+== nix build .#docker
+copying path '/nix/store/zda0plmaa9xsd42f03lmig3rzbah63g9-perl-5.40.0-env' from 'https://cache.nixos.org'...
+building '/nix/store/x8p4gx1avk0pqxvi0b6ynrn7v9sc8x0w-runtime-deps.drv'...
+runtime-deps> structuredAttrs is enabled
+copying path '/nix/store/7r833sf4mxjyy75czyhx1k24vilg5yw4-moreutils-0.70' from 'https://cache.nixos.org'...
+building '/nix/store/f26mn5sbdm8s15z9z436skznizyxiac3-docker-image-quicknotes.tar.gz.drv'...
+docker-image-quicknotes.tar.gz> Adding layer...
+docker-image-quicknotes.tar.gz> tar: Removing leading `/' from member names
+docker-image-quicknotes.tar.gz> Adding meta...
+docker-image-quicknotes.tar.gz> Cooking the image...
+docker-image-quicknotes.tar.gz> Finished.
+IMAGE_SHA256_A 9c8f3979ad75a8552599875f11ace3674a310a6b4aca8ed9494db3c1fa4b66cb
+== flake.lock
+-rw-r--r--  1 iliakulichenko  staff  564 Oct 15 21:05 flake.lock
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1782847189,
+        "narHash": "sha256-twXPFqFsrrY5r28Zh7Homgcp2gUMBgQ6WDS98Q/3xFI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b6018f87da91d19d0ab4cf979885689b469cdd41",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-25.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+== Thu Oct 15 21:07:53 MSK 2026 phase 1 done

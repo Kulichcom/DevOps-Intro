@@ -1,0 +1,50 @@
+== Thu Oct 15 22:02:24 MSK 2026 phase 2 start, commit a3157f9
+== environment B: brand-new container, fresh clone
+8b8a4538d5a249697efedbf976b07a0eabd77d8f10225f2b5a146649eed123be
+cloned at a3157f9
+copying path '/nix/store/y54v4d4rgddhm8n6zpcbhxmbjby9ha3g-gcc-wrapper-14.3.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/3ksq0i8va221l9pp8nv606yygjc4dpkf-stdenv-linux' from 'https://cache.nixos.org'...
+building '/nix/store/zis084gjavj0jg2mcvpkc0hn3g0wb3fq-quicknotes-0.1.0.drv'...
+STORE_PATH_B /nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0
+STORE_HASH_B sha256:0sklj830zl6ci4gmk6wir6hszp9pig8yv5rvcbdia2k7hxs5vr0c
+building '/nix/store/x8p4gx1avk0pqxvi0b6ynrn7v9sc8x0w-runtime-deps.drv'...
+copying path '/nix/store/7r833sf4mxjyy75czyhx1k24vilg5yw4-moreutils-0.70' from 'https://cache.nixos.org'...
+building '/nix/store/f26mn5sbdm8s15z9z436skznizyxiac3-docker-image-quicknotes.tar.gz.drv'...
+IMAGE_SHA256_B 9c8f3979ad75a8552599875f11ace3674a310a6b4aca8ed9494db3c1fa4b66cb
+== environment A again (same container as phase 1)
+STORE_HASH_A sha256:0sklj830zl6ci4gmk6wir6hszp9pig8yv5rvcbdia2k7hxs5vr0c
+IMAGE_SHA256_A 9c8f3979ad75a8552599875f11ace3674a310a6b4aca8ed9494db3c1fa4b66cb
+== sha256sum of both tarballs on the Mac
+9c8f3979ad75a8552599875f11ace3674a310a6b4aca8ed9494db3c1fa4b66cb  lab11/out/quicknotes-nix-A.tar.gz
+9c8f3979ad75a8552599875f11ace3674a310a6b4aca8ed9494db3c1fa4b66cb  lab11/out/quicknotes-nix-B.tar.gz
+== load + run the Nix image
+Loaded image: quicknotes:nix
+6b1ddce69093fe5b3f159ed8ff2f303c137b0f7a24890310fb49e44195d5e838
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Thu, 15 Oct 2026 19:05:10 GMT
+Content-Length: 26
+
+{"notes":4,"status":"ok"}
+
+User=65532:65532 Entrypoint=[/nix/store/xv7pzl87lglb1wgkrf4lc60dbdwz1ca8-quicknotes-0.1.0/bin/quicknotes] Ports=map[8080/tcp:{}] Created=1970-01-01T00:00:01Z
+== Lab 6 Dockerfile, built twice with --no-cache
+sha256:6bdfa5167e45bb5270485e27cc36bca3d874a06c5f5782065e106d63dc33d9c4
+sha256:1fe7c6ae83602158bdfaff9277cdb94232e71109109898d80430714b05dfb6c7
+REPOSITORY   TAG       IMAGE ID                                                                  CREATED                  SIZE
+qn-lab6      run2      sha256:1fe7c6ae83602158bdfaff9277cdb94232e71109109898d80430714b05dfb6c7   Less than a second ago   22.1MB
+qn-lab6      run1      sha256:6bdfa5167e45bb5270485e27cc36bca3d874a06c5f5782065e106d63dc33d9c4   6 seconds ago            22.1MB
+[qn-lab6:run1] created=2026-10-15T19:05:22.033041805Z
+[qn-lab6:run2] created=2026-10-15T19:05:28.219453002Z
+== sizes
+IMAGE            ID             DISK USAGE   CONTENT SIZE   EXTRA
+quicknotes:nix   b9c5acc13898       31.4MB         14.5MB        
+IMAGE          ID             DISK USAGE   CONTENT SIZE   EXTRA
+qn-lab6:run1   6bdfa5167e45       22.1MB          5.4MB        
+qn-lab6:run2   1fe7c6ae8360       22.1MB          5.4MB        
+total 19984
+drwxr-xr-x  4 iliakulichenko  staff      128 Oct 15 22:05 .
+drwxr-xr-x  7 iliakulichenko  staff      224 Oct 15 22:02 ..
+-rw-r--r--@ 1 iliakulichenko  staff  5114847 Oct 15 21:07 quicknotes-nix-A.tar.gz
+-r--r--r--@ 1 iliakulichenko  staff  5114847 Oct 15 22:05 quicknotes-nix-B.tar.gz
+== Thu Oct 15 22:05:28 MSK 2026 phase 2 done
