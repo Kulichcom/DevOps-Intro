@@ -1,0 +1,60 @@
+name: nix-repro
+
+# Builds the Nix OCI image in two independent jobs (fresh runners each) and
+# fails if the two image digests differ. Lab 11 bonus.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-a:
+    runs-on: ubuntu-24.04
+    outputs:
+      digest: ${{ steps.d.outputs.digest }}
+    env:
+      BREAK_REPRO: "1"   # "1" = deliberately change the source in job A only
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
+      - name: Deliberate divergence (only when BREAK_REPRO=1)
+        if: env.BREAK_REPRO == '1'
+        run: echo " " >> app/seed.json
+      - run: nix build .#docker -L
+      - id: d
+        run: |
+          d=$(sha256sum result | awk '{print $1}')
+          echo "digest=$d" >> "$GITHUB_OUTPUT"
+          echo "job A digest: $d"
+
+  build-b:
+    runs-on: ubuntu-24.04
+    outputs:
+      digest: ${{ steps.d.outputs.digest }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
+      - run: nix build .#docker -L
+      - id: d
+        run: |
+          d=$(sha256sum result | awk '{print $1}')
+          echo "digest=$d" >> "$GITHUB_OUTPUT"
+          echo "job B digest: $d"
+
+  compare:
+    runs-on: ubuntu-24.04
+    needs: [build-a, build-b]
+    steps:
+      - env:
+          A: ${{ needs.build-a.outputs.digest }}
+          B: ${{ needs.build-b.outputs.digest }}
+        run: |
+          echo "A=$A"
+          echo "B=$B"
+          if [ -z "$A" ] || [ "$A" != "$B" ]; then
+            echo "::error::Not reproducible: digests differ"
+            exit 1
+          fi
+          echo "Reproducible: both jobs produced $A"
